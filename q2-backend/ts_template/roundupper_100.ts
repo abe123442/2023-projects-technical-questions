@@ -50,9 +50,12 @@ app.get('/entity', (req, res) => {
 
 
 app.get('/lassoable/', (req, res) => {
-
     // get cowboy name from request body
-    const { cowboy_name } = req.body;
+    let cowboy_name: String | undefined = req.body.cowboy_name;
+
+    if (!cowboy_name) {
+        return res.status(400).send();
+    }
     
     const animals = spaceDatabase.filter(entity => entity.type=="space_animal") as spaceAnimalEntity[];
     const cowboys = spaceDatabase.filter(entity => entity.type=="space_cowboy") as spaceCowboyEntity[];
